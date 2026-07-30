@@ -1,0 +1,82 @@
+openapi: 3.0.3
+info:
+  title: URL Shortener API
+  version: 1.0.0
+  description: A simple URL shortener service with Go, Gin, Redis, and PostgreSQL.
+servers:
+  - url: http://localhost:8080
+    description: Local server
+paths:
+  /shorten:
+    post:
+      summary: Create a shortened URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  example: https://example.com/very/long/url
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  original_url:
+                    type: string
+                  short_code:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date-time
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+  /{shortCode}:
+    get:
+      summary: Redirect to original URL
+      parameters:
+        - name: shortCode
+          in: path
+          required: true
+          schema:
+            type: string
+            example: abc123
+      responses:
+        '302':
+          description: Found (redirect)
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+        '404':
+          description: URL not found
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    URL:
+      type: object
+      properties:
+        id:
+          type: integer
+        original_url:
+          type: string
+        short_code:
+          type: string
+        created_at:
+          type: string
+          format: date-time

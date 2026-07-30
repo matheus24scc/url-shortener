@@ -1,0 +1,41 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/url-shortener
+url-shortener
+
+# Test binary
+*.test
+
+# Output
+*.out
+coverage.txt
+coverage.html
+
+# Go workspace
+go.work
+go.work.sum
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# GitHub Actions workflows (added locally; not in initial tracked subset)
+.github/workflows/
