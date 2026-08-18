@@ -1,21 +1,22 @@
 package config
+
 import (
-    "fmt"
-    "log"
-    "os"
-    "github.com/joho/godotenv"
+	"fmt"
+	"github.com/joho/godotenv"
+	"log"
+	"os"
 )
 
 type Config struct {
-	ServerPort string
-	DBHost     string
-	DBPort     string
-	DBUser     string
-	DBPassword string
-	DBName     string
-	RedisAddr  string
+	ServerPort    string
+	DBHost        string
+	DBPort        string
+	DBUser        string
+	DBPassword    string
+	DBName        string
+	RedisAddr     string
 	RedisPassword string
-	RedisDB    int
+	RedisDB       int
 }
 
 func Load() *Config {
@@ -25,15 +26,15 @@ func Load() *Config {
 	}
 
 	config := &Config{
-		ServerPort:   getEnv("SERVER_PORT", "8080"),
-		DBHost:       getEnv("DB_HOST", "localhost"),
-		DBPort:       getEnv("DB_PORT", "5432"),
-		DBUser:       getEnv("DB_USER", "postgres"),
-		DBPassword:   getEnv("DB_PASSWORD", "postgres"),
-		DBName:       getEnv("DB_NAME", "urlshortener"),
-		RedisAddr:    getEnv("REDIS_ADDR", "localhost:6379"),
+		ServerPort:    getEnv("SERVER_PORT", "8080"),
+		DBHost:        getEnv("DB_HOST", "localhost"),
+		DBPort:        getEnv("DB_PORT", "5432"),
+		DBUser:        getEnv("DB_USER", "postgres"),
+		DBPassword:    getEnv("DB_PASSWORD", "postgres"),
+		DBName:        getEnv("DB_NAME", "urlshortener"),
+		RedisAddr:     getEnv("REDIS_ADDR", "localhost:6379"),
 		RedisPassword: getEnv("REDIS_PASSWORD", ""),
-		RedisDB:      getEnvAsInt("REDIS_DB", 0),
+		RedisDB:       getEnvAsInt("REDIS_DB", 0),
 	}
 	return config
 }
@@ -48,7 +49,7 @@ func getEnv(key, fallback string) string {
 func getEnvAsInt(key string, fallback int) int {
 	if value, exists := os.LookupEnv(key); exists {
 		var val int
-		_, err := fmt.Sscanf(value, "0", &val)
+		_, err := fmt.Sscanf(value, "%d", &val)
 		if err != nil {
 			return fallback
 		}
