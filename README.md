@@ -32,6 +32,15 @@ them would currently start a service that only serves `/ping`. Treat the Postgre
 sections as the roadmap, not the present state.
 
 
+> Revisado na campanha de repo-checkup. Relatorio completo: `~/repo-checkup/reports/url-shortener.md` (local do mantenedor, nao no repo).
+- **Build/Install**: `go build ./...` RC=0; `go vet ./...` RC=0; `go mod tidy` RC=0; `gofmt -l .` limpo.
+- **Smoke test**: `go run ./cmd/server` sobe e `GET /ping` -> `{"message":"pong"}` (HTTP 200); sem servicos externos.
+- **Para rodar de ponta-a-ponta precisa de**: PostgreSQL + Redis (via docker-compose) — so para os endpoints reais (`POST /shorten`, `GET /:code`); `/ping` nao precisa; build/test nao dependem.
+- **Inconsistencias conhecidas (README vs codigo)**: README over-promete — descreve Postgres (pgx v4) + Redis (go-redis v8) + pacotes `handler/middleware/repository/service` + `docs/`/Swagger; NADA disso existe no codigo (stub so `/ping`).
+- **Seguranca**: secret scan PASS (nenhum segredo real; defaults localhost em `.env.example`/`docker-compose.yml`); sem vulns reportadas.
+- **Estado resumido**: build verde + smoke `/ping`; stub — falta implementar o que o README promete (roadmap/decisao humana).
+
+
 ## Tech Stack
 
 | Layer    | Technology              |
