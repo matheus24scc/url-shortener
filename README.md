@@ -7,6 +7,30 @@ A lightweight URL shortener service built with Go, Gin, Redis, and PostgreSQL.
 Generate short, memorable URLs from long ones. Cache hot links in Redis and persist the
 mapping in PostgreSQL. Docker Compose spins up the full stack (api + Redis + PostgreSQL)
 locally and the OpenAPI spec documents the REST surface.
+## Current Status (verified — checkup 2026-08-18)
+
+> **Heads-up — the documentation below over-promises the current code.**
+> This repository is currently a **minimal working stub**, not the full
+> Postgres + Redis service described in the sections that follow.
+
+What actually exists and is verified working (`go build ./...`, `go vet ./...`,
+`go test ./...` all green):
+
+- `cmd/server/main.go` — a Gin server exposing **only** `GET /ping` (returns `{"message":"pong"}`).
+- `internal/config` — env-driven config loader (`config.Load()`).
+- `internal/model` — the `URL` domain struct (defined, not yet wired to any storage).
+
+What is **NOT implemented** yet (referenced by this README but absent from the code):
+
+- `internal/handler`, `internal/middleware`, `internal/repository`, `internal/service` — directories do not exist.
+- PostgreSQL (pgx) and Redis (go-redis) integration — `go.mod` lists only `gin-gonic/gin` and `joho/godotenv`; there are **zero** imports of `pgx`, `go-redis`, or `postgres` anywhere in the `.go` files.
+- The `POST /shorten` and `GET /:code` endpoints described in the API table.
+- The `docs/` directory and the Swagger UI (`swag init` has not been run / is not committed).
+
+The `docker-compose.yml` / `Dockerfile` describe the intended full stack, but running
+them would currently start a service that only serves `/ping`. Treat the Postgres/Redis
+sections as the roadmap, not the present state.
+
 
 ## Tech Stack
 
